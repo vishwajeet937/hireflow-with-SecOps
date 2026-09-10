@@ -15,6 +15,9 @@ RUN npm run build
 
 FROM nginx:alpine
 
+# Upgrade OS packages to patch known CVEs (libssl, libcrypto, etc.) in the final runtime image
+RUN apk update && apk upgrade --no-cache
+
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 
